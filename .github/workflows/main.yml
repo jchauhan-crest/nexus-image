@@ -21,7 +21,7 @@ jobs:
           docker build -t https://5c27-103-108-207-58.ngrok-free.app:8081/jainish-docker/myimage:latest .
 
       - name: Nexus Repository Publisher - Push Docker Image
-        uses: sonatype-nexus-community/nexus-repository-publisher-action@v1
+        uses: sonatype-nexus-community/nexus-repo-github-action@master
         with:
           nexus_url:  https://5c27-103-108-207-58.ngrok-free.app:8081
           repository: jainish-docker
