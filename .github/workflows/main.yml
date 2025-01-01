@@ -24,6 +24,7 @@ jobs:
         uses: sonatype-nexus-community/nexus-repo-github-action@master
         with:
           serverurl:  https://5c27-103-108-207-58.ngrok-free.app:8081
+          format: docker
           repository: jainish-docker
           username: ${{ secrets.NEXUS_USERNAME }}
           password: ${{ secrets.NEXUS_PASSWORD }}
