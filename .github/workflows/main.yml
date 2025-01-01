@@ -18,7 +18,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t https://5c27-103-108-207-58.ngrok-free.app:8081/jainish-docker/myimage:latest .
+          docker build -t 5c27-103-108-207-58.ngrok-free.app:8081/jainish-docker/myimage:latest .
 
       - name: Nexus Repository Publisher - Push Docker Image
         uses: sonatype-nexus-community/nexus-repo-github-action@master
@@ -27,4 +27,4 @@ jobs:
           repository: jainish-docker
           username: ${{ secrets.NEXUS_USERNAME }}
           password: ${{ secrets.NEXUS_PASSWORD }}
-          image: https://5c27-103-108-207-58.ngrok-free.app:8081/jainish-docker/myimage:latest
+          image: 5c27-103-108-207-58.ngrok-free.app:8081/jainish-docker/myimage:latest
