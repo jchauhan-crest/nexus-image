@@ -34,4 +34,4 @@ jobs:
           username: ${{ secrets.NEXUS_USERNAME }}
           password: ${{ secrets.NEXUS_PASSWORD }}
           assets: extension=tar
-          filename: myapp.tar
+          filename: ./myapp.tar
