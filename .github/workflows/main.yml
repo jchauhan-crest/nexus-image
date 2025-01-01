@@ -23,10 +23,12 @@ jobs:
           username: ${{ secrets.NEXUS_USERNAME }}
           password: ${{ secrets.NEXUS_PASSWORD }}
 
-      - name: Build Docker image
+      # Step 4: Build and push the Docker image with OCI label
+      - name: Build and push Docker image with OCI label
         run: |
-          docker build -t cf9d-103-108-207-58.ngrok-free.app/jainish-docker/myimage:latest .
+          docker build -t cf9d-103-108-207-58.ngrok-free.app/jainish-docker/label-image:latest --label org.opencontainers.image.source="https://github.com/jchauhan-crest/bitbucket-usercase-ui" --push .
 
-      - name: Push Docker image to Nexus
+      # Step 5: Build and push the Docker image with provenance
+      - name: Build and push Image 2 with Provenance
         run: |
-          docker push cf9d-103-108-207-58.ngrok-free.app/jainish-docker/myimage:latest
+          docker buildx build --provenance=true -t cf9d-103-108-207-58.ngrok-free.app/jainish-docker/attestation-image:latest --push .
