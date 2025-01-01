@@ -20,12 +20,18 @@ jobs:
         run: |
           docker build -t 5c27-103-108-207-58.ngrok-free.app:8081/jainish-docker/myimage:latest .
 
+      - name: Save Docker image as tarball
+        run: |
+          docker save 5c27-103-108-207-58.ngrok-free.app:8081/jainish-docker/myimage:latest -o myapp.tar
+
       - name: Nexus Repository Publisher - Push Docker Image
         uses: sonatype-nexus-community/nexus-repo-github-action@master
         with:
           serverurl:  https://5c27-103-108-207-58.ngrok-free.app:8081
           format: docker
           repository: jainish-docker
+          coordinates: groupId=com.example artifactId=app version=1.0.0
           username: ${{ secrets.NEXUS_USERNAME }}
           password: ${{ secrets.NEXUS_PASSWORD }}
-          image: 5c27-103-108-207-58.ngrok-free.app:8081/jainish-docker/myimage:latest
+          assets: extension=tar
+          filename: myapp.tar
