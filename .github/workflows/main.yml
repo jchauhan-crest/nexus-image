@@ -1,0 +1,30 @@
+name: Push Docker Image to Nexus Repository
+
+on:
+  push:
+    branches:
+      - main  # Trigger the action on push to the main branch
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t https://5c27-103-108-207-58.ngrok-free.app:8081/jainish-docker/myimage:latest .
+
+      - name: Nexus Repository Publisher - Push Docker Image
+        uses: sonatype-nexus-community/nexus-repository-publisher-action@v1
+        with:
+          nexus_url:  https://5c27-103-108-207-58.ngrok-free.app:8081
+          repository: jainish-docker
+          username: ${{ secrets.NEXUS_USERNAME }}
+          password: ${{ secrets.NEXUS_PASSWORD }}
+          image: https://5c27-103-108-207-58.ngrok-free.app:8081/jainish-docker/myimage:latest
