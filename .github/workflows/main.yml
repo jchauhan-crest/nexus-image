@@ -1,30 +1,37 @@
-name: Push Docker Image to Nexus Repository
+name: Build and Push Image
 
 on:
   push:
     branches:
-      - main  # Trigger the action on push to the main branch
+      - main
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: actions/checkout@v2
 
       - name: Log in to GitLab Container Registry
         run: echo "${{ secrets.GITLAB_PASSWORD }}" | docker login registry.gitlab.com -u ${{ secrets.GITLAB_USERNAME }} --password-stdin
 
-      # Step 4: Build and push the Docker image with OCI label
-      - name: Build and push Docker image with OCI label
-        run: |
-          docker build -t registry.gitlab.com/jchauhan2186/image-label:latest --label org.opencontainers.image.source="https://github.com/jchauhan-crest/bitbucket-usercase-ui" --push .
+      - name: Build and Push Image 1 with Label
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: registry.gitlab.com/bitbucket_usecase/label-image:latest
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
 
-      # Step 5: Build and push the Docker image with provenance
-      - name: Build and push Image 2 with Provenance
+      - name: Set up Buildx Builder
         run: |
-          docker buildx build --provenance=true -t registry.gitlab.com/jchauhan2186/image-attestation:latest --push .
+          docker buildx create --use --name mybuilder
+          docker buildx inspect --bootstrap
+
+      - name: Build and Push Image 2 with Provenance
+        run: |
+          docker buildx build \
+            --provenance=true \
+            -t registry.gitlab.com/bitbucket_usecase/attestation-image:latest \
+            --push .
