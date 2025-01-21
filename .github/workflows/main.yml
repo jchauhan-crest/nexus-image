@@ -1,4 +1,4 @@
-name: Build and Push Image
+name: Push Docker Image to Nexus Repository
 
 on:
   push:
@@ -8,30 +8,36 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Log in to GitLab Container Registry
-        run: echo "${{ secrets.GITLAB_PASSWORD }}" | docker login registry.gitlab.com -u ${{ secrets.GITLAB_USERNAME }} --password-stdin
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: Build and Push Image 1 with Label
-        uses: docker/build-push-action@v2
+      - name: Login to GitLab Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.gitlab.com
+          username: ${{ secrets.GITLAB_USERNAME }}
+          password: ${{ secrets.GITLAB_PASSWORD }}
+
+      # Build and push image with OCI label
+      - name: Build and push Docker image with OCI label
+        uses: docker/build-push-action@v4
         with:
           context: .
           push: true
-          tags: registry.gitlab.com/bitbucket_usecase/label-image:latest
+          tags: registry.gitlab.com/jchauhan2186/image-label:latest
           labels: |
-            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.source=https://github.com/jchauhan-crest/bitbucket-usercase-ui
 
-      - name: Set up Buildx Builder
-        run: |
-          docker buildx create --use --name mybuilder
-          docker buildx inspect --bootstrap
-
-      - name: Build and Push Image 2 with Provenance
-        run: |
-          docker buildx build \
-            --provenance=true \
-            -t registry.gitlab.com/bitbucket_usecase/attestation-image:latest \
-            --push .
+      # Build and push image with provenance
+      - name: Build and push Image with Provenance
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: registry.gitlab.com/jchauhan2186/image-attestation:latest
+          provenance: true
