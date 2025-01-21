@@ -29,7 +29,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: registry.gitlab.com/jchauhan2186/image-label:latest
+          tags: registry.gitlab.com/bitbucket_usecase/image-label:latest
           labels: |
             org.opencontainers.image.source=https://github.com/jchauhan-crest/bitbucket-usercase-ui
 
@@ -39,5 +39,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: registry.gitlab.com/jchauhan2186/image-attestation:latest
+          tags: registry.gitlab.com/bitbucket_usecase/image-attestation:latest
           provenance: true
