@@ -26,9 +26,9 @@ jobs:
       # Step 4: Build and push the Docker image with OCI label
       - name: Build and push Docker image with OCI label
         run: |
-          docker build -t registry.gitlab.com/sandip.bhesaniya/jainish-gitlab/image-label:latest --label org.opencontainers.image.source="https://github.com/jchauhan-crest/bitbucket-usercase-ui" --push .
+          docker build -t registry.gitlab.com/sandip.bhesaniya/image-label:latest --label org.opencontainers.image.source="https://github.com/jchauhan-crest/bitbucket-usercase-ui" --push .
 
       # Step 5: Build and push the Docker image with provenance
       - name: Build and push Image 2 with Provenance
         run: |
-          docker buildx build --provenance=true -t registry.gitlab.com/sandip.bhesaniya/jainish-gitlab/image-attestation:latest --push .
+          docker buildx build --provenance=true -t registry.gitlab.com/sandip.bhesaniya/image-attestation:latest --push .
