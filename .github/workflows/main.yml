@@ -32,10 +32,10 @@ jobs:
         # Modify Dockerfile to include the OCI label
         echo "LABEL org.opencontainers.image.source=${{ github.repository }}" >> Dockerfile
         # Build and push the image with the label
-        docker buildx build --push --tag registry.gitlab.com/${{ secrets.GITLAB_USERNAME }}/gitlab-snyk/image1:latest .
+        docker build --push --tag registry.gitlab.com/${{ secrets.GITLAB_USERNAME }}/gitlab-snyk/image-label:latest .
 
     # Build Image 2 with Attestation
     - name: Build Image 2 with Attestation
       run: |
         # Build and push the image with attestation using buildx
-        docker buildx build --provenance=true --push --tag registry.gitlab.com/${{ secrets.GITLAB_USERNAME }}/gitlab-snyk/image2:latest .
+        docker buildx build --provenance=true --push --tag registry.gitlab.com/${{ secrets.GITLAB_USERNAME }}/gitlab-snyk/imageattestation:latest .
