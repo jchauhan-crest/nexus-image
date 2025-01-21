@@ -24,14 +24,14 @@ jobs:
           password: ${{ secrets.GITLAB_PASSWORD }}
 
       # Build and push image with OCI label
-      - name: Build and push Docker image with OCI label
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: registry.gitlab.com/sandip.bhesaniya/bitbucket_usecase/image-label:latest
-          labels: |
-            org.opencontainers.image.source=https://github.com/jchauhan-crest/bitbucket-usercase-ui
+      # - name: Build and push Docker image with OCI label
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: registry.gitlab.com/sandip.bhesaniya/bitbucket_usecase/image-label:latest
+      #     labels: |
+      #       org.opencontainers.image.source=https://github.com/jchauhan-crest/bitbucket-usercase-ui
 
       # Build and push image with provenance
       - name: Build and push Image with Provenance
@@ -39,5 +39,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: registry.gitlab.com/bitbucket_usecase/image-attestation:latest
+          tags: registry.gitlab.com/sandip.bhesaniya/bitbucket_usecase/image-attestation:latest
           provenance: true
